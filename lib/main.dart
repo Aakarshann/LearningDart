@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:mydart/views/login_view.dart';
 import 'firebase_options.dart';
 
 void main() {
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
             seedColor: const Color.fromARGB(255, 0, 106, 255)),
         useMaterial3: true,
       ),
-      home: const RegisterView(),
+      home: const LoginView(),
     );
   }
 }
