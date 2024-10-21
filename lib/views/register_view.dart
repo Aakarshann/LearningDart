@@ -1,14 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class LoginView extends StatefulWidget {
-  const LoginView({super.key});
+class RegisterView extends StatefulWidget {
+  const RegisterView({super.key});
 
   @override
-  State<LoginView> createState() => _LoginViewState();
+  State<RegisterView> createState() => _RegisterViewState();
 }
 
-class _LoginViewState extends State<LoginView> {
+class _RegisterViewState extends State<RegisterView> {
   late final TextEditingController _email;
   late final TextEditingController _password;
 
@@ -31,7 +31,7 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login'),
+        title: const Text('Register'),
       ),
       body: Column(
         children: [
@@ -57,25 +57,22 @@ class _LoginViewState extends State<LoginView> {
                 final password = _password.text;
                 try {
                   final userCredential = await FirebaseAuth.instance
-                      .signInWithEmailAndPassword(
+                      .createUserWithEmailAndPassword(
                           email: email, password: password);
                   print(userCredential);
                 } on FirebaseAuthException catch (e) {
-                  if (e.code == 'invalid-credential') {
-                    print('User not found');
-                  } else {
-                    print('Something else happened');
-                    print(e.code);
+                  if (e.code == 'weak-password') {
+                    print('Weak password, please make stronger');
                   }
                 }
               },
-              child: const Text('Login')),
+              child: const Text('Register')),
           TextButton(
             onPressed: () {
               Navigator.of(context)
-                  .pushNamedAndRemoveUntil('/register/', (route) => false);
+                  .pushNamedAndRemoveUntil('/login/', (route) => false);
             },
-            child: const Text("Don't have an account?"),
+            child: const Text('Already have an account?'),
           ),
         ],
       ),
