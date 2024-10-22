@@ -12,6 +12,7 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   late final TextEditingController _email;
   late final TextEditingController _password;
+  String? _errorMessage;
 
   @override
   void initState() {
@@ -52,6 +53,11 @@ class _LoginViewState extends State<LoginView> {
             decoration:
                 const InputDecoration(hintText: 'Enter your password here'),
           ),
+          if (_errorMessage != null)
+            Text(
+              _errorMessage!,
+              style: const TextStyle(color: Colors.red),
+            ),
           TextButton(
               onPressed: () async {
                 final email = _email.text;
@@ -67,10 +73,11 @@ class _LoginViewState extends State<LoginView> {
                   );
                 } on FirebaseAuthException catch (e) {
                   if (e.code == 'invalid-credential') {
-                    devtools.log('User not found');
+                    _errorMessage = 'User not found';
                   } else {
-                    devtools.log('Something else happened');
-                    devtools.log(e.code);
+                    _errorMessage = 'incorrect email or password';
+                    devtools.log(e.code.toString());
+                    devtools.log('test');
                   }
                 }
               },
